@@ -1,5 +1,231 @@
 <!doctype html>
+<html lang="pt-BR">
+<head>
 <meta charset="utf-8">
-<title>Yume</title>
-<meta http-equiv="refresh" content="0; url=/yume/">
-<a href="/yume/">Abrir o Yume</a>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Silas Ribeiro — Aplicações com IA</title>
+<meta name="description" content="Portfólio de Silas Ribeiro: ecossistema de gestão automotiva (AG One), Orbi, Verbo Vivo e outros projetos construídos com IA.">
+<style>
+  :root{
+    --bg:#f7f6f2; --card:#ffffff; --ink:#1b1d21; --mute:#5d636d; --line:#e3e1da;
+    --accent:#b4531f; --accent-ink:#ffffff; --chip:#efece4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14161a; --card:#1c1f25; --ink:#eceae4; --mute:#a2a8b2; --line:#2b2f37; --accent:#e08a52; --accent-ink:#14161a; --chip:#262a32; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:inherit}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  header.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+  header.top strong{letter-spacing:.02em}
+  nav a{margin-left:18px;text-decoration:none;color:var(--mute);font-size:.95rem}
+  nav a:hover{color:var(--ink)}
+  .hero{display:grid;grid-template-columns:140px 1fr;gap:28px;align-items:center;padding:36px 0 28px}
+  .avatar{width:140px;height:140px;border-radius:50%;background:var(--chip);border:1px solid var(--line);overflow:hidden;display:grid;place-items:center;font-size:2.4rem;font-weight:700;color:var(--accent)}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  h1{font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.15;margin:0 0 10px}
+  .lead{font-size:1.15rem;color:var(--mute);margin:0 0 18px;max-width:60ch}
+  .btns{display:flex;flex-wrap:wrap;gap:10px}
+  .btn{display:inline-block;padding:10px 16px;border-radius:10px;border:1px solid var(--line);text-decoration:none;font-weight:600;font-size:.95rem;background:var(--card)}
+  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  section{padding:34px 0;border-top:1px solid var(--line)}
+  h2{font-size:1.35rem;margin:0 0 6px}
+  .sub{color:var(--mute);margin:0 0 20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column}
+  .card.big{grid-column:1/-1}
+  .card h3{margin:0 0 4px;font-size:1.15rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+  .card p{margin:6px 0 10px;color:var(--mute)}
+  .card ul{margin:6px 0 12px;padding-left:20px;color:var(--ink)}
+  .card ul li{margin:3px 0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px}
+  .chip{background:var(--chip);border-radius:999px;padding:3px 10px;font-size:.8rem;color:var(--mute)}
+  .card .btn{margin-top:auto;align-self:flex-start}
+  .shots{position:relative;margin:0 0 16px;padding-bottom:26px}
+  .shots .d{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
+  .shots .m{position:absolute;right:10px;bottom:0;width:27%;aspect-ratio:9/19;object-fit:cover;object-position:top;border-radius:12px;border:3px solid var(--card);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .gal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:8px 0 16px}
+  .gal a{display:block;text-decoration:none}
+  .gal img{display:block;width:100%;border-radius:10px;border:1px solid var(--line)}
+  .gal figcaption{font-size:.82rem;color:var(--mute);margin-top:5px}
+  .gal figure{margin:0}
+  @media (max-width:640px){.gal{grid-template-columns:1fr}}
+  .phones{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+  .phones img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;object-position:top;border-radius:12px;border:1px solid var(--line)}
+  .shots img,.gal img{cursor:zoom-in}
+  #zoom{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;cursor:zoom-out}
+  #zoom.on{display:flex}
+  #zoom img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.6);background:#000}
+  #zoom button{position:absolute;top:14px;right:16px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;width:40px;height:40px;font-size:1.3rem;cursor:pointer}
+  .note{font-size:.85rem;color:var(--mute);margin:8px 0 0}
+  .soon{opacity:.85}
+  ol.steps{padding-left:20px;margin:0}
+  ol.steps li{margin:6px 0}
+  footer{padding:30px 0 50px;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}
+  @media (max-width:640px){
+    .hero{grid-template-columns:1fr;text-align:left}
+    .avatar{width:104px;height:104px;font-size:1.8rem}
+    nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <strong>Silas Ribeiro</strong>
+    <nav>
+      <a href="#projetos">Projetos</a>
+      <a href="#formacao">Formação</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="avatar" aria-hidden="true">
+      <img src="foto.jpg" alt="" onerror="var p=this.parentNode;this.remove();p.textContent='SR'">
+    </div>
+    <div>
+      <h1>Aplicações com IA, nascidas de um problema real.</h1>
+      <p class="lead">Há 9 anos na AG Pickups e Multimarcas, uma loja de veículos com mais de 50 anos. Vi onde a operação travava e conduzi, com IA, a construção do sistema que a loja usa hoje.</p>
+      <div class="btns">
+        <a class="btn primary" href="#projetos">Ver projetos</a>
+        <a class="btn" href="https://www.linkedin.com/in/silas-f-ribeiro-413293b8" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/silasfribeiro" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="projetos">
+    <h2>Projetos</h2>
+    <p class="sub">Do sistema de uma loja real a apps pessoais. Cada um nasceu de uma necessidade, não de um tutorial.</p>
+    <div class="grid">
+
+      <article class="card big">
+        <span class="tag">Em produção desde jul/2026</span>
+        <h3>AG One — ecossistema de gestão automotiva</h3>
+        <p>O sistema onde a loja opera: estoque, anúncios, leads, clientes, vendas, financeiro e marketing. O veículo é cadastrado uma vez e o sistema cuida do resto. Todo contato, de qualquer origem, cai num funil só, sem duplicata e com vendedor definido.</p>
+        <ul>
+          <li><strong>Estoque:</strong> ficha completa do veículo (166 campos, fotos, opcionais e histórico).</li>
+          <li><strong>Integrador de anúncios:</strong> publica, atualiza e retira o anúncio em vários portais (REST/OAuth, SOAP, feed XML) e verifica se o anúncio está no ar e se realmente saiu na retirada.</li>
+          <li><strong>Leads:</strong> 7 origens, anti-duplicidade, distribuição ao vendedor e alerta de lead parado.</li>
+          <li><strong>Gestão:</strong> vendas e financeiro, indicadores, campanhas com conversões enviadas ao Meta e ao Google.</li>
+          <li><strong>IA:</strong> atendente 24h pelo WhatsApp, liberado em nov/2026 em parte dos portais e ainda em treinamento, com travas de horário e limite por lead; recuperação de leads perdidos com aprovação do dono.</li>
+        </ul>
+        <div class="gal">
+          <figure><a href="img/ag-inicio.jpg" target="_blank" rel="noopener"><img src="img/ag-inicio.jpg" alt="Tela inicial do AG One, com estoque, procura e vendas do mês" loading="lazy"></a><figcaption>Início: o estoque de hoje, igual para todos os cargos.</figcaption></figure>
+          <figure><a href="img/ag-estoque.jpg" target="_blank" rel="noopener"><img src="img/ag-estoque.jpg" alt="Tela de estoque do AG One com a grade de veículos" loading="lazy"></a><figcaption>Estoque: a ficha única que alimenta todos os canais.</figcaption></figure>
+          <figure><a href="img/ag-integrador.jpg" target="_blank" rel="noopener"><img src="img/ag-integrador.jpg" alt="Tela do integrador de anúncios do AG One" loading="lazy"></a><figcaption>Integrador: onde cada carro está anunciado, num lugar só.</figcaption></figure>
+          <figure><a href="img/ag-funil.jpg" target="_blank" rel="noopener"><img src="img/ag-funil.jpg" alt="Funil de leads em kanban do AG One" loading="lazy"></a><figcaption>Funil de leads: todo contato com dono e com relógio.</figcaption></figure>
+        </div>
+        <p class="note">Telas reconstruídas com nomes, placas e valores fictícios. Nenhum dado real da loja ou de clientes aparece.</p>
+        <div class="chips">
+          <span class="chip">Claude</span><span class="chip">ChatGPT</span><span class="chip">Base44</span>
+          <span class="chip">React</span><span class="chip">Deno</span><span class="chip">Webhooks</span><span class="chip">n8n</span><span class="chip">Testes automatizados</span>
+        </div>
+        <p class="note">Sistema privado, de uso interno da loja: não há demonstração pública. Desenvolvido com um colega de trabalho e com IA; eu conduzo requisitos, regras de negócio, prioridades e validação. Estudo de caso completo, em PDF, em preparação.</p>
+      </article>
+
+      <article class="card">
+        <span class="tag">No ar</span>
+        <div class="shots">
+          <img class="d" src="img/site-desk.jpg" alt="Página inicial do site da AG Pickups no computador" loading="lazy">
+          <img class="m" src="img/site-mob.jpg" alt="Página inicial do site da AG Pickups no celular" loading="lazy">
+        </div>
+        <h3>Site AG Pickups</h3>
+        <p>Vitrine pública da loja, sincronizada ao AG One: busca com filtros, página de cada veículo, SEO e captura de leads por WhatsApp, avaliação do usado e encomenda de zero km.</p>
+        <div class="chips"><span class="chip">Sincronizado ao CRM</span><span class="chip">SEO</span></div>
+        <a class="btn" href="https://www.agpickups.com.br" target="_blank" rel="noopener">Visitar o site</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">No ar</span>
+        <div class="shots">
+          <img class="d" src="img/orbi-desk.jpg" alt="Página inicial do Orbi no computador" loading="lazy">
+          <img class="m" src="img/orbi-mob.jpg" alt="Página inicial do Orbi no celular" loading="lazy">
+        </div>
+        <h3>Orbi</h3>
+        <p>Notícias de IA em português, com comunidade e chat privado. Node.js e Postgres, com monitoramento de saúde e cópia de segurança.</p>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">Postgres</span><span class="chip">Supabase</span><span class="chip">Render</span></div>
+        <a class="btn" href="https://orbi-44u0.onrender.com/#/" target="_blank" rel="noopener">Abrir o Orbi</a>
+        <p class="note">Pode levar alguns segundos para carregar na primeira visita.</p>
+      </article>
+
+      <article class="card">
+        <span class="tag">Publicação em breve</span>
+        <div class="shots">
+          <img class="d" src="img/vv-desk.jpg" alt="Tela inicial do Verbo Vivo no computador" loading="lazy">
+          <img class="m" src="img/vv-serie.jpg" alt="Tela de leitura assistida do Verbo Vivo no celular" loading="lazy">
+        </div>
+        <h3>Verbo Vivo</h3>
+        <p>App de leitura bíblica que funciona offline e se instala no celular: Bíblia completa, planos de leitura, estudos por série, login com sincronização e IA opcional com a chave protegida no servidor.</p>
+        <div class="chips"><span class="chip">PWA</span><span class="chip">Offline</span><span class="chip">Supabase</span><span class="chip">Row level security</span></div>
+      </article>
+
+      <article class="card">
+        <span class="tag">Simulação com dados fictícios</span>
+        <div class="shots">
+          <img class="d" src="img/yume-desk.jpg" alt="Tela inicial da simulação do Yume no computador" loading="lazy">
+          <img class="m" src="img/yume-vendas.jpg" alt="Tela de vendas da simulação do Yume no celular" loading="lazy">
+        </div>
+        <h3>Yume</h3>
+        <p>App de controle de estoque e vendas de um ateliê artesanal, de uso próprio. O app real tem dados reais e não é público, então esta é uma simulação com produtos e vendas inventados: dá para navegar, vender e mover estoque, mas nada é salvo.</p>
+        <div class="chips"><span class="chip">PWA</span><span class="chip">Supabase</span><span class="chip">Controle de estoque</span></div>
+        <a class="btn" href="yume-demo/index.html" target="_blank" rel="noopener">Abrir a simulação</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="formacao">
+    <h2>Formação em IA e programação</h2>
+    <p class="sub">Estudo contínuo, com o que já construí servindo de laboratório.</p>
+    <div class="grid">
+      <article class="card">
+        <h3>IA</h3>
+        <ul>
+          <li>Automações com Claude para Empresas e Negócios — Udemy (concluído)</li>
+          <li>Claude: Cowork, Claude Code, Skills e Plugins — Udemy (em andamento)</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Programação</h3>
+        <ul>
+          <li>Algoritmos e Lógica, HTML5, Java, PHP e MySQL — Curso em Vídeo, 40 h cada (concluídos)</li>
+          <li>Git e GitHub — Curso em Vídeo (em andamento)</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p class="sub">Aberto a oportunidades como desenvolvedor de aplicações com IA.</p>
+    <div class="btns">
+      <a class="btn primary" href="mailto:silasfribeiro2795@gmail.com">silasfribeiro2795@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/silas-f-ribeiro-413293b8" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/silasfribeiro" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+  <footer>São Paulo, SP · As imagens do Orbi e do site são das páginas públicas. O AG One e o Yume só serão mostrados com telas e dados fictícios; nenhum dado real de clientes ou da loja é exibido.</footer>
+</div>
+
+<div id="zoom" role="dialog" aria-modal="true" aria-label="Imagem ampliada"><button type="button" aria-label="Fechar">×</button><img alt=""></div>
+<script>
+(function(){
+  var z=document.getElementById('zoom'),zi=z.querySelector('img');
+  function abrir(src,alt){zi.src=src;zi.alt=alt||'';z.classList.add('on');}
+  function fechar(){z.classList.remove('on');zi.removeAttribute('src');}
+  document.addEventListener('click',function(e){
+    var img=e.target.closest('.shots img, .gal img');
+    if(img){e.preventDefault();abrir(img.currentSrc||img.src,img.alt);return;}
+    if(z.classList.contains('on'))fechar();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')fechar();});
+})();
+</script>
+</body>
+</html>

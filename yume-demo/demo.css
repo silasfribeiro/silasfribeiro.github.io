@@ -1,0 +1,8 @@
+/* Faixa fixa da simulação + ajustes para o cabeçalho e o menu lateral descerem junto */
+:root{--demo-h:26px}
+.demo-faixa{position:fixed;top:0;left:0;right:0;height:var(--demo-h);z-index:60;background:#2f3a2a;color:#f6f1db;font:700 .72rem/var(--demo-h) 'Nunito',system-ui,sans-serif;text-align:center;letter-spacing:.02em;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body{padding-top:var(--demo-h)}
+header.top{top:var(--demo-h)}
+@media (min-width:900px){
+  nav.bottom{top:calc(60px + var(--demo-h));min-height:calc(100vh - 60px - var(--demo-h))}
+}
